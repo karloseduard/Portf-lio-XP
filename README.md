@@ -47,7 +47,7 @@ Pré-requisito: [Node.js](https://nodejs.org/) (versão LTS recente) e npm.
 
 ```bash
 # clonar o repositório
-git clone <URL-DO-REPOSITORIO>
+git clone https://github.com/karloseduard/Portf-lio-XP.git
 cd Portf-lio-XP
 
 # instalar as dependências
