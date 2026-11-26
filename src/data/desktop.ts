@@ -1,0 +1,27 @@
+export const desktopCopy = {
+  systemName: 'Pixel Luna XP',
+  portfolioLabel: 'PORTFÓLIO',
+  terminalPrompt: 'C:\\PORTFOLIO> INICIAR',
+  shortcuts: {
+    computer: { label: 'Sobre', caption: 'Perfil' },
+    projects: { label: 'Projetos/', caption: '4 projetos' },
+    resume: { label: 'Currículo.pdf', caption: 'Download' },
+    github: { label: 'GitHub.lnk', caption: '@karloseduard' },
+    linkedin: { label: 'LinkedIn.lnk', caption: 'Perfil' },
+  },
+  hero: {
+    systemUser: 'PERFIL PROFISSIONAL',
+    liveBadge: 'LIVE',
+    availability: 'Disponível para projetos & contratação',
+  },
+  menuItems: ['Arquivo', 'Exibir', 'Ações', 'Ajuda'],
+  selectedItems: 'Conteúdo do portfólio',
+  readyStatus: 'Navegação por seções',
+  encoding: 'Idioma:',
+  okStatus: 'pt-BR',
+  projectsAddress: 'C:\\Karlos\\Projetos\\',
+  viewMode: 'Modo: Detalhes',
+  projectCount: '4 projetos listados',
+  localDisk: 'Visualização',
+  freeSpace: 'Detalhes',
+};

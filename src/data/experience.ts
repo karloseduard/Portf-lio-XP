@@ -2,17 +2,21 @@ import type { Experience } from '../types/portfolio';
 
 export const experience: Experience[] = [
   {
-    id: 'include-jr',
+    id: 'include-jr-frontend',
     organization: 'Include Jr.',
-    role: 'Experiência profissional',
-    period: 'Período a confirmar',
-    summary: 'Participação em atividades de desenvolvimento web e projetos em equipe.',
+    role: 'Desenvolvedor Web Front-end',
+    // TODO: confirmar período e responsabilidades
+  },
+  {
+    id: 'include-jr-projects',
+    organization: 'Include Jr.',
+    role: 'Diretor de Projetos',
+    // TODO: confirmar período e responsabilidades
   },
   {
     id: 'herby-vision',
     organization: 'Herby Vision',
     role: 'Estágio',
-    period: 'Período a confirmar',
-    summary: 'Atividades de apoio em atualização e ajustes de interface front-end.',
+    // TODO: confirmar período e atividades executadas
   },
 ];

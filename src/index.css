@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
 
 *,
 *::before,
@@ -7,16 +8,17 @@
 }
 
 html {
+  min-width: 320px;
   scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  font-family: var(--font-sans);
-  color: var(--color-text);
-  background: var(--color-desktop);
+  margin: 0;
+  background: var(--color-desktop-wallpaper);
+  color: var(--color-on-surface);
+  font-family: var(--font-body-md);
 }
 
 button,
@@ -29,6 +31,65 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid #ffd84d;
-  outline-offset: 2px;
+  outline: var(--border-focus) solid var(--color-primary);
+  outline-offset: var(--spacing-focus-offset);
+}
+
+.topbar a:focus-visible,
+.desktop-icons a:focus-visible,
+.taskbar a:focus-visible,
+.start-button:focus-visible {
+  outline-color: var(--color-pixel-cloud-cream);
+}
+
+.material-icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  fill: currentColor;
+  vertical-align: middle;
+}
+
+@utility pixel-border-raised {
+  box-shadow: var(--shadow-raised);
+}
+
+@utility pixel-border-sunken {
+  box-shadow: var(--shadow-sunken);
+}
+
+@utility pixel-border-dialog {
+  border: var(--border-pixel) solid var(--color-pixel-outer-border);
+  box-shadow: var(--shadow-dialog-inset), var(--shadow-hard);
+}
+
+@utility pixel-button-raised {
+  box-shadow: var(--shadow-raised), var(--shadow-button);
+}
+
+@utility pixel-button-small-raised {
+  box-shadow: var(--shadow-raised), var(--shadow-button-small);
+}
+
+@media (max-width: 767px) {
+  .taskbar a,
+  .start-button,
+  .desktop-icons a {
+    min-height: var(--spacing-touch-target);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
