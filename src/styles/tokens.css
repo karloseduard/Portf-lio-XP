@@ -1,0 +1,31 @@
+:root {
+  /* Confirmar paleta: cores extraídas visualmente do avatar e da tela aprovada */
+  --color-desktop: #1f527d;
+  --color-desktop-deep: #173e67;
+  --color-titlebar: #1d64c6;
+  --color-titlebar-dark: #174b9b;
+  --color-taskbar: #1e63b7;
+  --color-window: #f7fbff;
+  --color-window-alt: #eef5fb;
+  --color-text: #13243a;
+  --color-muted: #52677d;
+  --color-border: #1b3652;
+  --color-border-light: #a6b8c8;
+  --color-accent: #b84f2c;
+  --color-accent-dark: #84351f;
+  --color-success: #1f7a46;
+  --color-white: #ffffff;
+  --font-sans: Inter, "Segoe UI", Arial, sans-serif;
+  --font-pixel: "Press Start 2P", "Courier New", monospace;
+  --font-mono: "Courier New", Consolas, monospace;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --border-pixel: 2px;
+  --shadow-hard: 3px 3px 0 rgba(10, 29, 48, 0.38);
+  --radius-pixel: 2px;
+}
