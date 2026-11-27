@@ -4,6 +4,7 @@ import avatarUrl from '../../assets/avatar/avatar.png';
 import { desktopCopy } from '../../data/desktop';
 import { startMenuSections } from '../../data/navigation';
 import { links } from '../../data/profile';
+import { useWindowManager } from '../../context/WindowManagerContext';
 import { MaterialIcon } from '../ui/MaterialIcon';
 
 type StartMenuProps = {
@@ -15,6 +16,7 @@ type StartMenuProps = {
 const focusableSelector = 'a[href], button:not([disabled])';
 
 export function StartMenu({ open, onClose, triggerRef }: StartMenuProps) {
+  const { openAndGo, resetLayout } = useWindowManager();
   const menuRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -95,11 +97,31 @@ export function StartMenu({ open, onClose, triggerRef }: StartMenuProps) {
         </div>
         <nav className="start-menu-links" aria-label="Atalhos do menu Iniciar">
           {startMenuSections.map((section) => (
-            <a key={section.id} href={`#${section.id}`} onClick={onClose}>
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              onClick={(event) => {
+                event.preventDefault();
+                openAndGo(section.id);
+                onClose();
+              }}
+            >
               <MaterialIcon name={section.icon} className="text-primary" />
               <span>{section.label}</span>
             </a>
           ))}
+          <button
+            type="button"
+            className="start-menu-restore"
+            style={{ fontFamily: 'var(--font-body-md)', fontSize: 'var(--text-body-md)' }}
+            onClick={() => {
+              resetLayout();
+              onClose();
+            }}
+          >
+            <MaterialIcon name="desktop_windows" className="text-primary" />
+            <span>Restaurar janelas</span>
+          </button>
           <a href={links.resumeUrl} download onClick={onClose}>
             <MaterialIcon name="picture_as_pdf" className="text-tertiary" />
             <span>Baixar currículo</span>

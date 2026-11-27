@@ -1,5 +1,7 @@
 import { desktopCopy } from '../../data/desktop';
 import { links } from '../../data/profile';
+import type { WindowId } from '../../types/windowManager';
+import { useWindowManager } from '../../context/WindowManagerContext';
 import { MaterialIcon, type MaterialIconName } from '../ui/MaterialIcon';
 
 type ShortcutProps = {
@@ -10,6 +12,7 @@ type ShortcutProps = {
   color?: string;
   external?: boolean;
   download?: boolean;
+  windowId?: WindowId;
 };
 
 function DesktopShortcut({
@@ -20,7 +23,10 @@ function DesktopShortcut({
   color = 'text-primary',
   external = false,
   download = false,
+  windowId,
 }: ShortcutProps) {
+  const { openAndGo } = useWindowManager();
+
   return (
     <a
       className="desktop-shortcut group flex flex-col items-center text-center transition-colors duration-150"
@@ -28,9 +34,14 @@ function DesktopShortcut({
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
       download={download}
+      onClick={(event) => {
+        if (!windowId) return;
+        event.preventDefault();
+        openAndGo(windowId);
+      }}
     >
-      <span className="desktop-icon pixel-border-raised flex items-center justify-center bg-window-surface transition-transform duration-150 group-hover:scale-105">
-        <MaterialIcon name={icon} className={`${color} text-2xl`} />
+      <span className="desktop-icon pixel-border-raised flex items-center justify-center bg-window-surface transition-transform duration-150 group-hover:scale-105 ">
+        <MaterialIcon name={icon} className={`${color} text-2xl`}  />
       </span>
       <span className="desktop-shortcut-label">
         {label}
@@ -49,23 +60,40 @@ export function DesktopIcons() {
     <nav className="desktop-icons flex flex-wrap items-center gap-space-md px-space-xs sm:gap-space-lg" aria-label="Atalhos do desktop">
       <DesktopShortcut
         href="#sobre"
+        windowId="sobre"
         icon="computer"
         label={desktopCopy.shortcuts.computer.label}
         caption={desktopCopy.shortcuts.computer.caption}
+        color='text-primary-container!'
       />
       <DesktopShortcut
         href="#projetos"
+        windowId="projetos"
         icon="folder_special"
         label={desktopCopy.shortcuts.projects.label}
         caption={desktopCopy.shortcuts.projects.caption}
-        color="text-tertiary-container"
+        color="text-tertiary-container!"
+      />
+      <DesktopShortcut
+        href="#skills"
+        windowId="skills"
+        icon="code"
+        label={desktopCopy.shortcuts.skills.label}
+        color="text-primary-container!"
+      />
+      <DesktopShortcut
+        href="#formacao"
+        windowId="formacao"
+        icon="description"
+        label={desktopCopy.shortcuts.education.label}
+        color="text-tertiary!"
       />
       <DesktopShortcut
         href={links.resumeUrl}
         icon="description"
         label={desktopCopy.shortcuts.resume.label}
         caption={desktopCopy.shortcuts.resume.caption}
-        color="text-tertiary"
+        color="text-tertiary!"
         download
       />
       <DesktopShortcut
@@ -73,7 +101,7 @@ export function DesktopIcons() {
         icon="code"
         label={desktopCopy.shortcuts.github.label}
         caption={desktopCopy.shortcuts.github.caption}
-        color="text-desktop-deep"
+        color="text-primary-container!"
         external
       />
       <DesktopShortcut
@@ -81,7 +109,7 @@ export function DesktopIcons() {
         icon="account_box"
         label={desktopCopy.shortcuts.linkedin.label}
         caption={desktopCopy.shortcuts.linkedin.caption}
-        color="text-primary-container"
+        color="text-primary-container!"
         external
       />
     </nav>

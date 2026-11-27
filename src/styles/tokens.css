@@ -80,6 +80,7 @@
   --shadow-project-footer: inset 0 1px 0 var(--color-pixel-bevel-shadow);
   --shadow-icon: 1px 1px 0 var(--color-pixel-outer-border);
   --shadow-window-control: inset -1px -1px 0 var(--color-pixel-bevel-dark);
+  --shadow-window-control-pressed: inset 1px 1px 0 var(--color-pixel-bevel-dark), inset -1px -1px 0 var(--color-pixel-bevel-highlight);
   --shadow-menu-close: inset -1px -1px 0 var(--color-pixel-outer-border);
   --shadow-mobile-menu: 0 -4px 0 var(--color-pixel-outer-border);
   --shadow-dialog-inset: inset 1px 1px 0 var(--color-pixel-bevel-highlight), inset -1px -1px 0 var(--color-pixel-bevel-shadow);
@@ -170,6 +171,12 @@
   --spacing-window-control: 1.125rem;
   --spacing-window-menu: 1.75rem;
   --spacing-window-status: 2rem;
+  --spacing-managed-window-width: 52rem;
+  --spacing-managed-window-height: 38rem;
+  --spacing-window-min-width: 22.5rem;
+  --spacing-window-min-height: 16.25rem;
+  --spacing-window-resize-handle: 1.5rem;
+  --spacing-window-resize-mark: 0.75rem;
   --spacing-start-menu-header: 3.75rem;
   --spacing-start-menu-width: 20rem;
   --spacing-start-menu-max-height: 38rem;

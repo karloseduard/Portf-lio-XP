@@ -95,6 +95,73 @@
   box-shadow: var(--shadow-hard);
 }
 
+.windowed-frame {
+  display: flex;
+  flex-direction: column;
+}
+
+.windowed-frame > .window-content {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.managed-window {
+  top: 50%;
+  left: 50%;
+  width: min(var(--spacing-managed-window-width), calc(100vw - var(--spacing-space-lg)));
+  height: min(var(--spacing-managed-window-height), calc(100dvh - var(--spacing-desktop-topbar) - var(--spacing-taskbar) - var(--spacing-space-lg)));
+  min-width: min(var(--spacing-window-min-width), calc(100vw - var(--spacing-space-lg)));
+  min-height: min(var(--spacing-window-min-height), calc(100dvh - var(--spacing-desktop-topbar) - var(--spacing-taskbar) - var(--spacing-space-lg)));
+  max-width: calc(100vw - var(--spacing-space-lg));
+  max-height: calc(100dvh - var(--spacing-desktop-topbar) - var(--spacing-taskbar) - var(--spacing-space-lg));
+  transform: translate3d(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, 0px)), 0);
+}
+
+.hero-window {
+  top: 50%;
+  left: 50%;
+  width: min(var(--spacing-portfolio-width), calc(100% - var(--spacing-space-lg)));
+  max-height: calc(100% - var(--spacing-space-lg));
+  transform: translate(-50%, -50%);
+}
+
+.all-windows-closed {
+  top: auto;
+  right: var(--spacing-space-md);
+  bottom: var(--spacing-space-md);
+  left: auto;
+  width: min(var(--spacing-managed-window-width), calc(100% - var(--spacing-space-lg)));
+  z-index: 20;
+}
+
+.window-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  width: var(--spacing-window-resize-handle);
+  height: var(--spacing-window-resize-handle);
+  place-items: center;
+  border: 0;
+  background: transparent;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+.window-resize-handle::after {
+  width: var(--spacing-window-resize-mark);
+  height: var(--spacing-window-resize-mark);
+  border-right: var(--border-pixel) solid var(--color-pixel-bevel-dark);
+  border-bottom: var(--border-pixel) solid var(--color-pixel-bevel-dark);
+  content: "";
+}
+
+.window-resize-handle:focus-visible {
+  outline: var(--border-focus) solid var(--color-primary);
+  outline-offset: -4px;
+}
+
 .titlebar {
   display: flex;
   min-height: var(--spacing-window-titlebar);
@@ -509,6 +576,76 @@
   }
 }
 
+@media (min-width: 1024px) and (pointer: fine) {
+  html,
+  body,
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .desktop-shell {
+    position: relative;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .desktop-workspace {
+    position: fixed;
+    z-index: 1;
+    inset: var(--spacing-desktop-topbar) 0 calc(var(--spacing-taskbar) + env(safe-area-inset-bottom, 0px));
+    display: grid;
+    max-width: none;
+    padding: var(--spacing-space-sm) var(--spacing-gutter-desktop);
+  }
+
+  .desktop-content {
+    position: relative;
+    width: min(var(--spacing-portfolio-width), 100%);
+    height: 100%;
+    margin-inline: auto;
+    padding: 0;
+  }
+
+  .desktop-content > .window-frame {
+    position: absolute;
+  }
+
+  .window-resize-handle {
+    display: grid;
+  }
+}
+
+@media (max-width: 1023px), (pointer: coarse) {
+  .managed-window,
+  .hero-window,
+  .all-windows-closed {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    max-width: none;
+    max-height: none;
+    transform: none;
+  }
+
+  .windowed-frame {
+    display: block;
+    overflow: hidden;
+  }
+
+  .windowed-frame > .window-content {
+    overflow: visible;
+  }
+
+  .window-resize-handle {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   .desktop-workspace {
     padding-right: var(--spacing-margin);
@@ -672,5 +809,131 @@
   .start-menu,
   .project-dialog {
     scroll-behavior: auto;
+  }
+}
+
+@layer components {
+  .window-frame[hidden] {
+    display: none;
+  }
+
+  .window-frame {
+    scroll-margin-top: calc(var(--spacing-desktop-topbar) + var(--spacing-space-sm));
+  }
+
+  .titlebar-drag-handle {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: default;
+    text-align: left;
+  }
+
+  .window-controls .window-control {
+    display: grid;
+    width: var(--spacing-window-control);
+    height: var(--spacing-window-control);
+    flex: 0 0 auto;
+    place-items: center;
+    border: var(--border-hairline) solid var(--color-pixel-bevel-highlight);
+    padding: 0;
+    background: var(--color-window-surface);
+    box-shadow: var(--shadow-window-control);
+    color: var(--color-pixel-outer-border);
+    font-family: var(--font-label-md);
+    font-size: var(--text-label-md);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .window-controls .window-control:hover,
+  .window-controls .window-control:active {
+    box-shadow: var(--shadow-window-control-pressed);
+  }
+
+  .window-controls .window-control.close-control {
+    background: var(--color-tertiary-container);
+    color: var(--color-on-primary);
+  }
+
+  .window-frame.is-dragging {
+    box-shadow: var(--shadow-hard);
+  }
+
+  .window-resize-handle {
+    display: none;
+  }
+
+  .window-dragging,
+  .window-dragging * {
+    user-select: none;
+  }
+
+  .task-button[data-window-closed] {
+    border-style: dashed;
+  }
+
+  .task-button-empty-indicator {
+    width: var(--spacing-space-sm);
+    height: var(--spacing-space-sm);
+    flex: 0 0 auto;
+    border: var(--border-hairline) dashed var(--color-pixel-bevel-dark);
+    background: var(--color-window-surface);
+  }
+
+  .start-menu-restore,
+  .all-windows-restore {
+    display: flex;
+    min-height: var(--spacing-touch-target);
+    align-items: center;
+    gap: var(--spacing-space-sm);
+    border: var(--border-hairline) solid var(--color-pixel-bevel-shadow);
+    padding: var(--spacing-space-sm);
+    background: var(--color-window-surface);
+    box-shadow: var(--shadow-button-small);
+    color: var(--color-on-surface);
+    text-align: left;
+  }
+
+  .start-menu-restore {
+    width: 100%;
+    font-family: var(--font-body-md);
+    font-size: var(--text-body-md);
+  }
+
+  .start-menu-restore:hover,
+  .all-windows-restore:hover {
+    background: var(--color-window-surface-light);
+  }
+
+  .all-windows-restore {
+    margin-top: var(--spacing-space-md);
+    font-family: var(--font-label-md);
+    font-size: var(--text-label-md);
+  }
+
+  @media (min-width: 1024px) and (pointer: fine) {
+    .titlebar-drag-handle {
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .titlebar-drag-handle.is-grabbing {
+      cursor: grabbing;
+    }
+
+    .window-resize-handle {
+      display: grid;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .window-controls .window-control {
+      width: var(--spacing-touch-target);
+      height: var(--spacing-touch-target);
+    }
   }
 }

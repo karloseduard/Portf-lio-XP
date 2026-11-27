@@ -3,8 +3,10 @@ import { taskbarSections } from '../../data/navigation';
 import { formatClockTime, toLocalDateTimeValue } from '../../utils/dateTime';
 import { MaterialIcon } from '../ui/MaterialIcon';
 import { StartMenu } from './StartMenu';
+import { useWindowManager } from '../../context/WindowManagerContext';
 
 export function Taskbar() {
+  const { windows, openAndGo } = useWindowManager();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('boas-vindas');
   const [now, setNow] = useState(() => new Date());
@@ -30,12 +32,13 @@ export function Taskbar() {
     );
 
     taskbarSections.forEach(({ id }) => {
+      if (!windows[id].aberta) return;
       const section = document.getElementById(id);
       if (section) observer.observe(section);
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [windows]);
 
   return (
     <div className="taskbar fixed inset-x-0 bottom-0 z-50 flex items-center justify-between gap-space-sm border-t-2 border-titlebar-gradient-light bg-gradient-to-r from-primary-container via-taskbar-gradient-light to-primary-container px-space-sm shadow-taskbar">
@@ -61,15 +64,27 @@ export function Taskbar() {
             <a
               key={section.id}
               href={`#${section.id}`}
+              id={`taskbar-${section.id}`}
               className={`task-button flex shrink-0 items-center gap-space-xs whitespace-nowrap border border-pixel-bevel-shadow px-space-sm font-label-md text-label-md transition-colors duration-150 ${
-                activeSection === section.id
+                windows[section.id].aberta && activeSection === section.id
                   ? 'bg-window-surface text-on-surface font-bold pixel-border-sunken'
                   : 'bg-window-surface-light text-on-surface-variant hover:bg-window-surface hover:text-on-surface'
               }`}
-              aria-current={activeSection === section.id ? 'true' : undefined}
+              aria-current={windows[section.id].aberta && activeSection === section.id ? 'location' : undefined}
+              data-window-closed={!windows[section.id].aberta || undefined}
+              onClick={(event) => {
+                event.preventDefault();
+                openAndGo(section.id);
+              }}
             >
               <MaterialIcon name={section.icon} className={section.id === 'projetos' ? 'text-pixel-cloud-cream' : 'text-primary'} />
               <span>{section.label}</span>
+              {!windows[section.id].aberta && (
+                <>
+                  <span className="task-button-empty-indicator" aria-hidden="true" />
+                  <span className="sr-only"> (fechada)</span>
+                </>
+              )}
             </a>
           ))}
         </nav>

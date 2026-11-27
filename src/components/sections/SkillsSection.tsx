@@ -1,10 +1,10 @@
 import { skillCategories } from '../../data/skills';
 import { desktopCopy } from '../../data/desktop';
-import { WindowFrame } from '../layout/WindowFrame';
+import { ManagedWindow } from '../layout/ManagedWindow';
 
 export function SkillsSection() {
   return (
-    <WindowFrame
+    <ManagedWindow
       id="skills"
       title="skills/"
       accessibleTitle="Habilidades"
@@ -26,6 +26,6 @@ export function SkillsSection() {
           </article>
         ))}
       </div>
-    </WindowFrame>
+    </ManagedWindow>
   );
 }

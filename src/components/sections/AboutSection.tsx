@@ -1,12 +1,12 @@
 import { profile } from '../../data/profile';
 import { desktopCopy } from '../../data/desktop';
-import { WindowFrame } from '../layout/WindowFrame';
+import { ManagedWindow } from '../layout/ManagedWindow';
 
 export function AboutSection() {
   const areas = profile.focus.split(' · ');
 
   return (
-    <WindowFrame
+    <ManagedWindow
       id="sobre"
       title="sobre.txt"
       accessibleTitle="Sobre"
@@ -22,6 +22,6 @@ export function AboutSection() {
           </span>
         ))}
       </div>
-    </WindowFrame>
+    </ManagedWindow>
   );
 }

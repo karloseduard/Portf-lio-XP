@@ -3,7 +3,7 @@ import { desktopCopy } from '../../data/desktop';
 import { projects } from '../../data/projects';
 import type { Project } from '../../types/portfolio';
 import { MaterialIcon } from '../ui/MaterialIcon';
-import { WindowFrame } from '../layout/WindowFrame';
+import { ManagedWindow } from '../layout/ManagedWindow';
 import { ProjectCard } from '../projects/ProjectCard';
 import { ProjectDialog } from '../projects/ProjectDialog';
 
@@ -18,7 +18,7 @@ export function ProjectsSection() {
 
   return (
     <>
-      <WindowFrame
+      <ManagedWindow
         id="projetos"
         title="projetos/ - Explorador de Arquivos"
         accessibleTitle="Projetos"
@@ -61,7 +61,7 @@ export function ProjectsSection() {
             <ProjectCard key={project.slug} project={project} onOpen={openProject} />
           ))}
         </div>
-      </WindowFrame>
+      </ManagedWindow>
       <ProjectDialog
         project={selectedProject}
         opener={dialogOpener}

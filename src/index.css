@@ -19,6 +19,7 @@ body {
   background: var(--color-desktop-wallpaper);
   color: var(--color-on-surface);
   font-family: var(--font-body-md);
+  
 }
 
 button,

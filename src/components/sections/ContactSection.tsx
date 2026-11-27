@@ -1,11 +1,11 @@
 import { links } from '../../data/profile';
 import { desktopCopy } from '../../data/desktop';
 import { MaterialIcon } from '../ui/MaterialIcon';
-import { WindowFrame } from '../layout/WindowFrame';
+import { ManagedWindow } from '../layout/ManagedWindow';
 
 export function ContactSection() {
   return (
-    <WindowFrame
+    <ManagedWindow
       id="contato"
       title="contato.exe"
       accessibleTitle="Contato"
@@ -33,6 +33,6 @@ export function ContactSection() {
           </a>
         </li>
       </ul>
-    </WindowFrame>
+    </ManagedWindow>
   );
 }

@@ -148,7 +148,7 @@ The personality is nostalgic, technical, approachable, and unmistakably authenti
 
 The visual style blends **Retro Pixel Art** with **Corporate OS Nostalgia**:
 - Hard pixel edges, beveled borders, and stepped geometry replace modern blur effects and rounded blobs.
-- Window chrome, taskbars, and dialog structures evoke desktop workspaces without imposing arbitrary window dragging or hidden files.
+- Window chrome, taskbars, and dialogs evoke desktop workspaces; controlled windows can be moved within viewport/document bounds on desktop, without making movement necessary to reach content.
 - The balance is split decisively: expressive pixel chrome for frames, labels, and badges; ultra-clean, legible modern typography for technical copy and case studies.
 
 ## Colors
@@ -179,9 +179,9 @@ Decorative retro pixel typefaces (like *Press Start 2P* or *Silkscreen*) are str
 
 The layout philosophy follows a **structured fluid-grid model** designed like a contemporary developer workspace framed within an OS shell.
 
-- **Desktop (1024px+):** The desktop canvas (`#2B4C6F`) serves as the base layer. Main sections appear as prioritized Windows XP frames with a maximum container width of `1120px` to maintain optimal line lengths. Windows feature top utility title bars, pixel bevels, and nested content panels. The taskbar (`#1B56A6` to `#2B7CE5`) docks persistently at the bottom with a fixed height of `48px`.
+- **Desktop (1024px+):** The desktop canvas (`#2B4C6F`) serves as the base layer. Main sections appear as prioritized Windows XP frames with a maximum container width of `1120px` to maintain optimal line lengths. Windows feature top utility title bars, pixel bevels, and nested content panels. Managed windows can be dragged by their title bar with a fine pointer; keyboard movement is also available. The taskbar (`#1B56A6` to `#2B7CE5`) docks persistently at the bottom with a fixed height of `48px`.
 - **Tablet (768px – 1023px):** Windows expand to full container width with a `2rem` margin. Multi-column cards collapse to 2 columns.
-- **Mobile (< 768px):** The OS metaphor streamlines into a sequential stack of window cards. Window management controls remain visual badges, avoiding any draggable chaos. The taskbar transforms into a clean bottom fixed command bar with the `[☁ Iniciar]` menu opening as a bottom sheet.
+- **Mobile (< 768px):** The OS metaphor streamlines into a sequential stack of window cards. Close controls remain operable with touch targets of at least `44px`; window dragging is disabled. The taskbar transforms into a clean bottom fixed command bar with the `[☁ Iniciar]` menu opening as a bottom sheet.
 
 The spacing rhythm adheres strictly to an **8px grid (0.5rem)** with **4px (0.25rem)** sub-steps to preserve crisp rasterization across both HiDPI screens and pixel-aligned UI borders.
 
@@ -215,9 +215,9 @@ To mirror the nostalgic Windows XP window aesthetics accurately without blurry s
 - **Structure:** Encasing border (2px `#181818`), inner bevel (1px `#FFFFFF` top/left, 1px `#808080` bottom/right), surface background `#ECE9D8`.
 - **Title Bar:** 32px height, gradient `#0055EA` to `#3C93FD`. Left side contains custom pixel file/app icon and label (`Space Grotesk` or `JetBrains Mono` bold, `#FFFFFF`).
 - **Window Controls:** Right-aligned trio of square buttons:
-  - Minimize (`_`): 18x18px bevel button, `#ECE9D8` background.
-  - Maximize (`□`): 18x18px bevel button, `#ECE9D8` background.
-  - Close (`X`): 18x18px button, vibrant crimson `#C0392B` with white pixel `X` glyph.
+  - On `boas-vindas.exe`, all three controls are decorative and unfocusable.
+  - On managed windows, Minimize (`_`) and Close (`X`) both close the window and can be reopened from navigation; `□` stays decorative.
+  - Managed-window buttons retain the 18x18px desktop bevel; touch layouts enlarge actionable controls to at least `44px`.
 
 ### Buttons
 - **Primary (Start Button / CTA):** Styled after the iconic XP "Iniciar" button. Rich emerald green `#388E3C` base with lighter top gradient `#4CAF50`, cream cloud icon (`☁`), bold white text, and a crisp 2px border. Active state shifts background darker (`#2E7D32`) with a sunken bevel.
@@ -227,7 +227,7 @@ To mirror the nostalgic Windows XP window aesthetics accurately without blurry s
 ### Taskbar (`Taskbar.tsx`)
 - Sticky/fixed bottom bar, 48px height.
 - Gradient fill from `#1B56A6` to `#2B7CE5`. Top pixel border is `#3C93FD` highlight.
-- Houses the Start button on the left, active section/minimized window tabs in the center (sunken bevel if current section is focused), and a retro system tray on the right with a digital clock (`JetBrains Mono`), live availability status, and social/GitHub pixel links.
+- Houses the Start button on the left, section links in the center (sunken bevel for the visible open window; a distinct closed indicator otherwise), and a retro system tray on the right with a digital clock (`JetBrains Mono`), live availability status, and social/GitHub pixel links.
 
 ### Input Fields & Search Bars
 - Background: `#FFFFFF` or `#F0F4F8`.

@@ -1,10 +1,10 @@
 import { education } from '../../data/education';
 import { desktopCopy } from '../../data/desktop';
-import { WindowFrame } from '../layout/WindowFrame';
+import { ManagedWindow } from '../layout/ManagedWindow';
 
 export function EducationSection() {
   return (
-    <WindowFrame
+    <ManagedWindow
       id="formacao"
       title="formacao/"
       accessibleTitle="Formação"
@@ -23,6 +23,6 @@ export function EducationSection() {
           </article>
         ))}
       </div>
-    </WindowFrame>
+    </ManagedWindow>
   );
 }

@@ -1,10 +1,12 @@
 export const desktopCopy = {
-  systemName: 'Pixel Luna XP',
-  portfolioLabel: 'PORTFÓLIO',
+  systemName: 'Karlos Eduardo OS',
+  portfolioLabel: 'v2001.x86',
   terminalPrompt: 'C:\\PORTFOLIO> INICIAR',
   shortcuts: {
     computer: { label: 'Sobre', caption: 'Perfil' },
     projects: { label: 'Projetos/', caption: '4 projetos' },
+    skills: { label: 'Skills/' },
+    education: { label: 'Formação/' },
     resume: { label: 'Currículo.pdf', caption: 'Download' },
     github: { label: 'GitHub.lnk', caption: '@karloseduard' },
     linkedin: { label: 'LinkedIn.lnk', caption: 'Perfil' },

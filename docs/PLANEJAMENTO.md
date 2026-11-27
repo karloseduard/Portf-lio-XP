@@ -99,10 +99,13 @@ A tipografia pixel não deve ser usada em parágrafos longos, pois prejudica a l
 
 A experiência será **profissional primeiro, temática depois**. O visitante deve conseguir entender o perfil e chegar aos projetos em poucos segundos.
 
-- O scroll vertical será a navegação principal.
-- A barra de tarefas terá atalhos para as seções.
+- No desktop, a navegação ocorre pela área de trabalho e pela barra de tarefas; o conteúdo de cada janela pode rolar internamente.
+- Em tablet e mobile, a página mantém a rolagem vertical e apresenta as seções empilhadas.
+- A barra de tarefas terá links que navegam até as seções, atualizam o hash e reabrem janelas fechadas.
 - As janelas serão componentes visuais que organizam o conteúdo.
-- Os controles `_`, `□` e `X` serão decorativos, a menos que uma ação real e acessível seja implementada.
+- A janela `boas-vindas.exe` permanece fixa, sempre aberta e com controles decorativos.
+- As demais janelas começam fechadas e são abertas sob demanda pela barra de tarefas ou pelo menu Iniciar.
+- Nas demais janelas, `_` e `X` fecham; `□` permanece decorativo.
 - Nenhuma informação essencial dependerá de hover, animação, som ou interação complexa.
 - Não haverá tela de carregamento obrigatória antes de mostrar o conteúdo.
 
@@ -268,8 +271,12 @@ A escolha é uma experiência **profissional**, então as interações devem ref
 
 | Elemento | Comportamento | Prioridade |
 |---|---|---|
-| Barra de tarefas | Navega para âncoras/seções da página | Alta |
-| Botão Iniciar | Abre menu simples com atalhos para seções e currículo | Alta |
+| Barra de tarefas | Navega por hash, reabre janelas fechadas e indica a janela visível | Alta |
+| Botão Iniciar | Abre atalhos para seções, currículo e “Restaurar janelas” | Alta |
+| CTA de projetos | Abre e leva até a janela correspondente | Alta |
+| Controles das janelas | `_` e `X` fecham; foco e anúncio acessível são atualizados | Alta |
+| Barra de título | Arraste com mouse no desktop; setas e `Home` pelo teclado | Alta |
+| Alça de redimensionamento | Ajusta largura e altura no desktop por ponteiro ou teclado | Alta |
 | Cards de projeto | Abrem detalhes completos do projeto | Alta |
 | Links e botões | Estados visuais claros de hover, foco e clique | Alta |
 | Avatar | Uma ou duas animações curtas, sem bloquear a leitura | Média |
@@ -282,9 +289,15 @@ A escolha é uma experiência **profissional**, então as interações devem ref
 ### Regras para as janelas
 
 - Aparência de janela do Windows XP reinterpretada em pixel art.
-- Não permitir que fechar ou minimizar uma janela esconda conteúdo necessário.
-- Não exigir arrastar janelas para acessar seções.
-- No desktop, os controles de janela podem ser somente decorativos.
+- `boas-vindas.exe` não pode ser movida, fechada ou minimizada; seus controles são decorativos.
+- `boas-vindas.exe` inicia aberta e centralizada; as demais janelas iniciam fechadas.
+- As janelas `sobre`, `projetos`, `experiencia`, `skills`, `formacao` e `contato` podem ser fechadas e reabertas pela barra de tarefas, menu Iniciar e atalhos correspondentes.
+- `_` e `X` fecham a janela; o estado é preservado enquanto ela fica oculta. Reabrir restaura a posição original.
+- No desktop com ponteiro fino, o corpo da página não rola; as janelas abertas podem ser arrastadas pela barra de título e redimensionadas pelo canto inferior direito. As setas, `Shift` + setas e `Home` permitem mover e redimensionar pelo teclado.
+- Em tablet e mobile, as seções permanecem empilhadas, com rolagem da página e sem arraste ou redimensionamento.
+- A barra de tarefas e o menu Iniciar atualizam o hash, abrem a janela quando necessário e movem o foco para o conteúdo.
+- O estado não persiste entre visitas. “Restaurar janelas” reabre todas e zera as posições.
+- Ao fechar todas as janelas controláveis, exibir um aviso com ação para restaurá-las.
 - Se um modal/painel for usado para detalhes de projeto, deve fechar com botão claro e tecla `Esc`, manter foco acessível e devolver o foco ao elemento que o abriu.
 
 ### Animações
@@ -298,8 +311,9 @@ A escolha é uma experiência **profissional**, então as interações devem ref
 
 ### Desktop
 
-- Fundo de desktop e janelas completas.
-- Barra de tarefas fixa ou sticky, sem cobrir o conteúdo.
+- Fundo de desktop em altura de viewport, com `boas-vindas.exe` centralizada.
+- Janelas abertas sobrepostas, redimensionáveis e arrastáveis; conteúdo longo rola dentro da janela.
+- Barra superior e barra de tarefas fixas, sem cobrir a área utilizável.
 - Largura confortável para leitura; evitar linhas de texto excessivamente longas.
 
 ### Tablet
@@ -346,12 +360,15 @@ src/
 ├── app/
 │   ├── App.tsx
 │   └── routes.ts                 # Se houver rotas
+├── context/
+│   └── WindowManagerContext.tsx  # Estado e navegação das janelas
 ├── components/
 │   ├── layout/
 │   │   ├── DesktopShell.tsx
 │   │   ├── Taskbar.tsx
 │   │   ├── StartMenu.tsx
-│   │   └── WindowFrame.tsx
+│   │   ├── WindowFrame.tsx
+│   │   └── ManagedWindow.tsx
 │   ├── navigation/
 │   │   └── SectionNav.tsx
 │   ├── projects/
@@ -379,7 +396,8 @@ src/
 │   ├── tokens.css
 │   └── global.css
 └── types/
-    └── portfolio.ts
+    ├── portfolio.ts
+    └── windowManager.ts
 ```
 
 ### Organização dos dados
@@ -411,9 +429,12 @@ Os campos devem ser preenchidos apenas quando houver informação real. Para um 
 ### Componentes centrais
 
 - `DesktopShell`: papel de parede, largura de conteúdo e estrutura geral.
-- `WindowFrame`: moldura visual reutilizável para cada seção.
-- `Taskbar`: navegação persistente e atalho para currículo.
-- `StartMenu`: menu de atalhos acessível por teclado.
+- `WindowManagerProvider`: mantém, via reducer, o estado transitório das janelas e a navegação por hash.
+- `ManagedWindow`: aplica abertura/fechamento, foco, z-index e movimento às janelas controláveis.
+- `WindowFrame`: moldura visual reutilizável; o hero mantém controles exclusivamente decorativos.
+- `Taskbar`: navegação por âncoras, estado de visibilidade e reabertura das janelas.
+- `StartMenu`: menu de atalhos acessível por teclado, incluindo restauração do layout.
+- `clampOffset`: limita posições à viewport, à barra superior e ao documento.
 - `ProjectCard`: resumo do projeto.
 - `ProjectDetails`: estudo de caso completo.
 - `ExperienceTimeline`: linha do tempo profissional.
@@ -475,8 +496,11 @@ Os campos devem ser preenchidos apenas quando houver informação real. Para um 
 
 ### Fase 3 — Interações profissionais
 
-- [ ] Atalhos da barra de tarefas para as seções.
-- [ ] Menu Iniciar com links rápidos.
+- [ ] Implementar `WindowManagerProvider`, reducer e estado inicial sem persistência.
+- [ ] Implementar `ManagedWindow`, controles de fechar, foco e anúncio acessível.
+- [ ] Implementar arraste limitado no desktop e movimento equivalente por teclado.
+- [ ] Conectar barra de tarefas, menu Iniciar, ícones, CTA e hash às janelas.
+- [ ] Implementar aviso de todas as janelas fechadas e restauração.
 - [ ] Detalhes completos dos projetos.
 - [ ] Linha do tempo expansível.
 - [ ] Filtro simples de habilidades.
@@ -494,8 +518,8 @@ Os campos devem ser preenchidos apenas quando houver informação real. Para um 
 ### Fora do escopo da primeira versão
 
 - Minigame ou easter egg.
-- Janelas livremente arrastáveis.
-- Sistema complexo de minimizar/restaurar janelas.
+- Maximizar, encaixar (“snap”) ou abrir múltiplas instâncias.
+- Arraste de janelas em celular/tablet e persistência de posições.
 - Sons de interface.
 - Tela de boot obrigatória.
 - Tradução completa para inglês, até que o conteúdo em português esteja finalizado.

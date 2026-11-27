@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { StartMenu } from './StartMenu';
+import { WindowManagerProvider } from '../../context/WindowManagerContext';
 
 function mockMobileViewport(matches: boolean) {
   Object.defineProperty(window, 'matchMedia', {
@@ -21,11 +22,13 @@ describe('menu Iniciar', () => {
     const trigger = document.createElement('button');
 
     render(
-      <StartMenu
-        open
-        onClose={onClose}
-        triggerRef={{ current: trigger }}
-      />,
+      <WindowManagerProvider>
+        <StartMenu
+          open
+          onClose={onClose}
+          triggerRef={{ current: trigger }}
+        />
+      </WindowManagerProvider>,
     );
 
     const closeButton = screen.getByRole('button', { name: 'Fechar menu Iniciar' });
@@ -44,11 +47,13 @@ describe('menu Iniciar', () => {
     mockMobileViewport(true);
 
     render(
-      <StartMenu
-        open
-        onClose={vi.fn()}
-        triggerRef={{ current: document.createElement('button') }}
-      />,
+      <WindowManagerProvider>
+        <StartMenu
+          open
+          onClose={vi.fn()}
+          triggerRef={{ current: document.createElement('button') }}
+        />
+      </WindowManagerProvider>,
     );
 
     expect(screen.getByRole('dialog', { name: 'Menu Iniciar' }).getAttribute('aria-modal')).toBe('true');

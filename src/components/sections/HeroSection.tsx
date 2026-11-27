@@ -3,8 +3,11 @@ import { desktopCopy } from '../../data/desktop';
 import { links, profile } from '../../data/profile';
 import { MaterialIcon } from '../ui/MaterialIcon';
 import { WindowFrame } from '../layout/WindowFrame';
+import { useWindowManager } from '../../context/WindowManagerContext';
 
 export function HeroSection() {
+  const { openAndGo } = useWindowManager();
+
   return (
     <WindowFrame
       id="boas-vindas"
@@ -12,7 +15,7 @@ export function HeroSection() {
       accessibleTitle="Apresentação"
       icon="terminal"
       menu={desktopCopy.menuItems}
-      className="hero-window"
+      className="hero-window windowed-frame"
       status={
         <>
           <div className="flex items-center gap-space-sm">
@@ -85,6 +88,10 @@ export function HeroSection() {
             <a
               className="inline-flex min-h-touch-target items-center gap-space-sm bg-gradient-to-b from-secondary to-on-secondary-fixed-variant px-space-md py-space-sm font-headline-sm text-headline-sm text-on-secondary pixel-button-raised transition-colors duration-150 hover:brightness-110 active:pixel-border-sunken"
               href="#projetos"
+              onClick={(event) => {
+                event.preventDefault();
+                openAndGo('projetos');
+              }}
             >
               <MaterialIcon name="cloud_download" />
               <span>Ver projetos [↓]</span>

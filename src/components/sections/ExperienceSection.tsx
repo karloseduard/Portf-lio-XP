@@ -1,10 +1,10 @@
 import { experience } from '../../data/experience';
 import { desktopCopy } from '../../data/desktop';
-import { WindowFrame } from '../layout/WindowFrame';
+import { ManagedWindow } from '../layout/ManagedWindow';
 
 export function ExperienceSection() {
   return (
-    <WindowFrame
+    <ManagedWindow
       id="experiencia"
       title="experiencia/"
       accessibleTitle="Experiência profissional"
@@ -22,6 +22,6 @@ export function ExperienceSection() {
           </li>
         ))}
       </ol>
-    </WindowFrame>
+    </ManagedWindow>
   );
 }

@@ -1,5 +1,16 @@
 # Pendências de conteúdo
 
+## Decisões de comportamento
+
+- `boas-vindas.exe` permanece fixa e sempre aberta; seus controles continuam decorativos.
+- As outras seis janelas fecham com `_` ou `X`, preservam estado interno enquanto ocultas e reabrem na posição original.
+- O arraste usa Pointer Events somente em telas a partir de 1024px com ponteiro fino; teclado oferece setas, `Shift` + setas e `Home`. No modo tablet/mobile, posições são zeradas.
+- Barra de tarefas, menu Iniciar, atalhos do desktop e CTA de projetos abrem e navegam por hash; o foco vai para a janela controlável.
+- Os atalhos visíveis de Skills e Formação foram incluídos, conforme confirmado pelo titular; isso é uma exceção deliberada à preservação pixel a pixel da área de ícones original.
+- O estado não é persistido. “Restaurar janelas” abre tudo e restaura as posições.
+- O estado fechado da barra usa borda tracejada e indicador de janela vazia, além de texto acessível “(fechada)”; essa escolha evita depender apenas de cor.
+- Com todas as janelas controláveis fechadas, o aviso de sistema aparece logo abaixo do hero e oferece “Restaurar janelas”.
+
 Os dados abaixo foram mantidos como rascunhos a partir do material já existente no repositório. Confirme-os com Karlos antes da publicação. Informações sem confirmação não devem ser promovidas a afirmações, métricas ou resultados.
 
 | Arquivo | Campo | Valor atual ou estado | O que confirmar |

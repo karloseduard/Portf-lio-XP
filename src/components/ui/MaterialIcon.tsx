@@ -76,5 +76,5 @@ type MaterialIconProps = {
 export function MaterialIcon({ name, className = '' }: MaterialIconProps) {
   const Icon = icons[name];
 
-  return <Icon className={`material-icon ${className}`} aria-hidden="true" focusable="false" />;
+  return <Icon className={` material-icon ${className} `} aria-hidden="true" focusable="false"/>;
 }
